@@ -28,8 +28,9 @@ cd /opt/world-clock
 
 # Download and unzip the source code
 wget https://github.com/fauky/world-clock/archive/refs/heads/main.zip -O world-clock.zip
-unzip -j world-clock.zip
-rm world-clock.zip
+unzip world-clock.zip
+mv world-clock-main/* .
+rm -r world-clock.zip world-clock-main
 
 # Build and install
 chmod +x build.sh
