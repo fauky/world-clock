@@ -32,7 +32,6 @@ unzip -j world-clock.zip
 rm world-clock.zip
 
 # Build and install
-cd world-clock
 chmod +x build.sh
 sudo ./build.sh
 ```
