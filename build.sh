@@ -38,6 +38,7 @@ if ! grep -q "enable_tvout=1" "$CONFIG_FILE"; then
     sed -i 's/^dtoverlay=vc4-kms-v3d/#&/' "$CONFIG_FILE"
     sed -i 's/^max_framebuffers=/#&/' "$CONFIG_FILE"
     # Comment out any existing overscan settings to prevent conflicts
+    sed -i 's/^\(disable_overscan=\)/#&/g' "$CONFIG_FILE"
     sed -i 's/^\(overscan_[a-z]*=\)/#&/g' "$CONFIG_FILE"
 
     cat << 'EOF' >> "$CONFIG_FILE"
@@ -150,7 +151,7 @@ if [ ! -f "$SERVICE_FILE" ]; then
     cat << EOF > "$SERVICE_FILE"
 [Unit]
 Description=World Clock
-After=multi-user.target
+After=multi-user.target getty@tty1.service
 
 [Service]
 Type=simple
@@ -158,6 +159,7 @@ User=$USERNAME
 Environment="QT_QPA_PLATFORM=linuxfb:fb=/dev/fb0"
 Environment="QT_QPA_FONTDIR=/usr/share/fonts"
 Environment="HOME=/home/$USERNAME"
+ExecStartPre=/bin/sleep 5
 ExecStart=$SCRIPT_DIR/bin/world-clock
 Restart=always
 RestartSec=3
